@@ -1,0 +1,31 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Eberl%
+, Drits%
+\BCBL {}\ \BBA {} Srodon%
+}{%
+Eberl%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {1998}}%
+}]{%
+eberl1998deducing}
+\APACinsertmetastar {%
+eberl1998deducing}%
+\begin{APACrefauthors}%
+Eberl, D.%
+, Drits, V.%
+\BCBL {}\ \BBA {} Srodon, J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1998}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Deducing growth mechanisms for minerals from the shapes
+  of crystal size distributions} {Deducing growth mechanisms for minerals from
+  the shapes of crystal size distributions}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{American journal of Science}{298}{6}{499--533}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}

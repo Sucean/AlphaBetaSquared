@@ -1,0 +1,18 @@
+# Alpha-Beta² Plotter
+
+A short description of the project.  
+
+![Demo](demo.gif)  
+
+## Table of Contents  
+- [Installation](#installation)
+- [Usage](#usage)
+- [References](#references)
+- [License](#license)
+
+## Installation  
+
+```bash
+git clone https://github.com/username/repo.git
+cd repo
+npm install

@@ -1,0 +1,385 @@
+\documentclass[
+	ngerman,							%deutsch
+	a4paper,							%Seiten Format
+	11pt,							%Schriftgröße
+	oneside							%einseitig
+	]{article}							%Artikel
+	
+
+\usepackage[utf8]{inputenc}				%Zeichenkodierung
+\usepackage[T1]{fontenc}				%Kein Plan
+\usepackage{lmodern}
+\usepackage{fontawesome}
+\usepackage[colorlinks=true, linkcolor=ColorTwo, urlcolor=ColorTwo, citecolor=ColorOne]{hyperref}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{apacite}					%Fürs Zitieren - wichtig muss nach hyperref geladen werden!
+\usepackage{graphicx}					%Irgendwas mit Bildern?
+\usepackage[english]{babel}			%englische Silbentrennung
+\usepackage{pdflscape}
+
+
+\usepackage{float}						%Um Text um Floats rumfloaten zu lassen
+\usepackage{
+	amsmath,
+	amssymb,
+	amsfonts,
+	fancyhdr}						%Mathezeugs?
+\usepackage{setspace}
+\usepackage[left=2.6cm, right=2.9cm,top=3.5cm, bottom=3.5cm]{geometry}
+\usepackage{rotating}
+\usepackage[labelfont=bf]{caption}
+%\usepackage{tocbibind}
+%\usepackage{arial}
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+\usepackage[section]{placeins}
+
+%\usepackage{natbib}
+%\usepackage[usenames,dvipsnames]{xcolor}
+
+\usepackage{tocloft}
+
+\usepackage{enumitem}
+\usepackage{sectsty}
+\usepackage{wasysym}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\geometry{margin=1in}
+
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+	
+\pagestyle{fancy}	
+
+\renewcommand{\BAstyle}{\scshape} 				%Macht \cite{} irgendwie in kapitaelchen
+\newcommand{\centered}[1]{\begin{tabular}{l} #1 \end{tabular}}
+\usepackage{listings}
+
+\fancypagestyle{portraitstyle}{
+  \fancyhf{} % Lösche alle Kopf- und Fußzeilen
+  \lhead{Kopfzeile links}
+  \rhead{Kopfzeile rechts}
+  \cfoot{Seitennummerierung}
+}
+
+\title{Summary}  								%Titel
+\author{Tobias Manzel} 							%Name
+\date{\today}										%Datum
+\fancyhead[RE,RO]{Tobias Manzel}						%Text Rechts im Header
+\fancyhead[LE,LO]{\leftmark}	 	%Text Links im Header (Hier Kapitel)
+\input{setup}
+
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+%\begin{flushleft}
+	\makebox[0pt][l]{%
+ 	\raisebox{-\totalheight}[0pt][0pt]{%
+      \includegraphics[width=0.7\textwidth]{signet.png}}}%
+
+	%\end{flushleft}
+
+	{\bfseries\large University of Greifswald \par}
+	{\bfseries\large Faculty of Mathematics and Natural Sciences \par}
+	{\bfseries\large Institute for Geographie and Geology \par}
+	\vspace{0.25cm}
+    {\rule{15cm}{0.4pt} \par}
+	\vspace{0.5cm}
+	{\scshape\large Code Documentation\par}
+	\vspace{0.25cm}
+	{\Large\bfseries Full Documentation of AlphaBetaSquared Class
+          for Python\par}
+	\vspace{1cm}
+	{\Large\bfseries Greifswald \today \par}
+	\vspace{2cm}
+    %{\includegraphics[width=1\textwidth]{title.jpg} \par}
+    	\vspace{6cm}
+\end{titlepage}
+
+\newpage
+\setstretch{1}
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+\section{Overview}
+The \texttt{AlphaBetaSquared} class is a Python utility designed for
+statistical analysis and visualization of particle size distributions
+from CSV data files. It computes key statistical parameters ($\alpha$
+and $\beta^2$), fits log-normal distributions, and generates plots to
+visualize both size distributions and kinetic analysis after
+\shortciteNP{eberl1998deducing} (alpha-beta squared plots).\\
+\ \\
+\noindent
+The class supports flexible data loading, customizable plotting, and data export functionalities, making it suitable for both interactive use (e.g., Jupyter notebooks) and batch processing.
+
+\section{Class Description}
+\subsection*{Class Definition}
+\begin{lstlisting}
+class AlphaBetaSquared():
+\end{lstlisting}
+
+\subsection*{Purpose}
+The \texttt{AlphaBetaSquared} class provides methods to:
+\begin{itemize}
+    \item Load data from one or more CSV files.
+    \item Calculate statistical metrics ($\alpha$, $\beta$, maximum values, and log-normal fits).
+    \item Visualize particle size distributions and $\alpha$ vs. $\beta^2$ plots.
+    \item Export computed data to CSV files.
+\end{itemize}
+
+\subsection*{Attributes}
+\begin{itemize}
+    \item \texttt{self.data}: Dictionary storing loaded CSV data.
+    \item \texttt{self.\_alpha}: Dictionary of computed $\alpha$ values.
+    \item \texttt{self.\_beta}: Dictionary of computed $\beta$ values.
+    \item \texttt{self.\_table\_max}: Dictionary of maximum values per column.
+    \item \texttt{self.\_lognorm\_fits}: Dictionary of log-normal fit parameters.
+    \item \texttt{self.auto\_display}: Boolean to control automatic plot display (default: \texttt{False}).
+    \item \texttt{self.alphabeta\_scale}: Boolean to scale $\alpha$-$\beta^2$ plot limits (default: \texttt{False}).
+    \item \texttt{self.save\_plot}: Boolean to save plots to files (default: \texttt{False}).
+    \item \texttt{self.plot\_config}: Dictionary for plot formatting (partially implemented).
+    \item \texttt{self.\_\_exportable\_attributes}: Tuple of attributes available for export.
+\end{itemize}
+\newpage
+\subsection*{Dependencies}
+\begin{table}[ht]
+\centering
+\begin{tabular}{lll}
+\textbf{Package} & \textbf{Version} & \textbf{Installation Command} \\
+Python & $\geq$3.8 & \texttt{conda install python=3.9.2} \\
+NumPy & 1.23.x & \texttt{pip install numpy==1.23.4} \\
+SciPy & 1.9.x & \texttt{pip install scipy==1.9.1} \\
+Matplotlib & 3.6.x & \texttt{pip install matplotlib==3.6.2} \\
+Pandas & 2.1.x & \texttt{pip install pandas==2.1.4} \\
+\end{tabular}
+\end{table}
+
+\section{Methods}
+
+\subsection{\texttt{\_\_init\_\_}}
+\begin{lstlisting}
+def __init__(self, *args, plot_config=None)
+\end{lstlisting}
+\textbf{Description:} Initializes the class by loading data and computing statistical metrics.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{*args}: Variable-length argument list of CSV file paths or a single list of paths.
+    \item \texttt{plot\_config}: Optional dictionary to customize plot appearance (default: \texttt{None}).
+\end{itemize}
+
+\textbf{Behavior:} Loads data, calculates $\alpha$, $\beta$, maximum values, and log-normal fits, and sets up plotting attributes.
+
+\subsection{\texttt{\_load\_data}}
+\begin{lstlisting}
+def _load_data(self, args)
+\end{lstlisting}
+\textbf{Description:} Loads data from CSV files into a dictionary.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{args}: Tuple of file paths or a single list of paths.
+\end{itemize}
+
+\textbf{Returns:} Dictionary with keys as table names (derived from filenames) and values as \texttt{pandas.DataFrame} objects.
+
+\subsection{\texttt{set\_auto\_display}}
+\begin{lstlisting}
+def set_auto_display(self, x)
+\end{lstlisting}
+\textbf{Description:} Sets the \texttt{auto\_display} attribute.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{x}: Boolean value.
+\end{itemize}
+
+\subsection{\texttt{set\_save\_plot}}
+\begin{lstlisting}
+def set_save_plot(self, x)
+\end{lstlisting}
+\textbf{Description:} Sets the \texttt{save\_plot} attribute.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{x}: Boolean value.
+\end{itemize}
+
+\subsection{\texttt{set\_alphabeta\_scale}}
+\begin{lstlisting}
+def set_alphabeta_scale(self, x)
+\end{lstlisting}
+\textbf{Description:} Sets the \texttt{alphabeta\_scale} attribute.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{x}: Boolean value.
+\end{itemize}
+
+\subsection{\texttt{calc\_alpha}}
+\begin{lstlisting}
+def calc_alpha(self, x)
+\end{lstlisting}
+\textbf{Description:} Calculates the mean of the natural logarithm of the input data.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{x}: Numeric array-like object.
+\end{itemize}
+
+\textbf{Returns:} Float representing $\alpha$.
+
+\subsection{\texttt{calc\_beta}}
+\begin{lstlisting}
+def calc_beta(self, x)
+\end{lstlisting}
+\textbf{Description:} Calculates the variance of the natural logarithm of the input data.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{x}: Numeric array-like object.
+\end{itemize}
+
+\textbf{Returns:} Float representing $\beta$.
+
+\subsection{\texttt{show}}
+\begin{lstlisting}
+def show(self)
+\end{lstlisting}
+\textbf{Description:} Displays all active Matplotlib plots.
+
+\subsection{\texttt{get\_data}}
+\begin{lstlisting}
+def get_data(self)
+\end{lstlisting}
+\textbf{Returns:} The \texttt{self.data} dictionary.
+
+\subsection{\texttt{get\_alpha}}
+\begin{lstlisting}
+def get_alpha(self)
+\end{lstlisting}
+\textbf{Returns:} The \texttt{self.\_alpha} dictionary.
+
+\subsection{\texttt{get\_beta}}
+\begin{lstlisting}
+def get_beta(self)
+\end{lstlisting}
+\textbf{Returns:} The \texttt{self.\_beta} dictionary.
+
+\subsection{\texttt{operate\_on}}
+\begin{lstlisting}
+def operate_on(self, data_dict, stat_func, result_attr, *args, **kwargs)
+\end{lstlisting}
+\textbf{Description:} Applies a statistical function to each column of each table in a data dictionary and stores results.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{data\_dict}: Dictionary of data tables.
+    \item \texttt{stat\_func}: Function to apply to each column.
+    \item \texttt{result\_attr}: Attribute name to store results.
+    \item \texttt{*args}, \texttt{**kwargs}: Additional arguments for \texttt{stat\_func}.
+\end{itemize}
+
+\subsection{\texttt{calc\_distribution}}
+\begin{lstlisting}
+def calc_distribution(self, bins=50, density=True, *args, **kwargs)
+\end{lstlisting}
+\textbf{Description:} Calculates histograms for particle size distributions.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{bins}: Integer or array specifying bin edges (default: 50).
+    \item \texttt{density}: Boolean to normalize histogram (default: \texttt{True}).
+    \item \texttt{*args}, \texttt{**kwargs}: Additional arguments passed to histogram calculation.
+\end{itemize}
+
+\subsection{\texttt{plot\_distribution}}
+\begin{lstlisting}
+def plot_distribution(self, table_column_map=None)
+\end{lstlisting}
+\textbf{Description:} Plots particle size distributions with log-normal fits.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{table\_column\_map}: Optional dictionary mapping table names to column lists (default: \texttt{None}).
+\end{itemize}
+
+\textbf{Returns:} List of \texttt{matplotlib.figure.Figure} objects.
+
+\textbf{Notes:} Automatically calculates distributions if not already computed. Supports saving plots if \texttt{self.save\_plot} is \texttt{True}.
+
+\subsection{\texttt{plot\_alphabeta}}
+\begin{lstlisting}
+def plot_alphabeta(self, *args, **kwargs)
+\end{lstlisting}
+\textbf{Description:} Generates an $\alpha$ vs. $\beta^2$ scatter plot with regression lines and kinetic regime annotations.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{*args}: Optional table names or dictionary specifying tables to plot.
+    \item \texttt{**kwargs}: Reserved for future extensions.
+\end{itemize}
+
+\textbf{Returns:} Tuple of \texttt{matplotlib.figure.Figure} and \texttt{matplotlib.axes.Axes} objects.
+
+\subsection{\texttt{save\_data}}
+\begin{lstlisting}
+def save_data(self, attr, *args, **kwargs)
+\end{lstlisting}
+\textbf{Description:} Saves a specified attribute’s data to CSV files.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{attr}: String name of the attribute to save.
+    \item \texttt{*args}, \texttt{**kwargs}: Reserved for future extensions.
+\end{itemize}
+
+\subsection{\texttt{export\_data}}
+\begin{lstlisting}
+def export_data(self, *args, **kwargs)
+\end{lstlisting}
+\textbf{Description:} Exports specified or all exportable attributes to CSV files.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{*args}: Optional attribute names to export.
+    \item \texttt{**kwargs}: Reserved for future extensions.
+\end{itemize}
+
+\section{Usage Examples}
+\subsection*{Basic Usage}
+\begin{lstlisting}
+obj = AlphaBetaSquared('data1.csv', 'data2.csv')
+obj.plot_distribution()
+obj.plot_alphabeta()
+obj.export_data()
+\end{lstlisting}
+
+\subsection*{Custom Plotting}
+\begin{lstlisting}
+obj = AlphaBetaSquared('data.csv')
+obj.set_auto_display(False)
+figs = obj.plot_distribution({'table1': ['col1', 'col2']})
+figs[0].get_axes()[0].set_title('Custom Title')
+obj.show()
+\end{lstlisting}
+
+\section{Notes}
+\begin{itemize}
+    \item The \texttt{plot\_config} attribute is partially implemented and marked as a TODO.
+    \item Invalid tables or columns in plotting methods are skipped with warnings.
+    \item Set \texttt{auto\_display} to \texttt{False} in Jupyter notebooks when manipulating returned figures.
+\end{itemize}
+
+\clearpage
+\bibliographystyle{apacite}
+\bibliography{References}
+\listoffigures
+\listoftables
+\end{document}
