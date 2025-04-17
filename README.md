@@ -217,12 +217,17 @@ subject to the following conditions:
 
 3. **Attribution**:  
    Any academic publications using this Software must cite:  
-   ```bib
-@misc{kumar2025hematite,
-    author={Ritwick Sudheer Kumar, Laurence N. Warr, Georg H. Grathoff, Balu R. Thombare, Tobias Manzel},
-    title={Hydro-thermal neocrystallisation mechanism of hematite crystals by partial dissolution of montmorillonites: a TEM based study},
-    year={2025},
-    howpublished={\url{https://github.com/sucean/alphabetasquared}},
+   
+```bib
+@article{kumar2025hematite,
+title={Hydro-thermal neocrystallisation mechanism of hematite crystals by partial dissolution of montmorillonites: a TEM based study},
+author={Ritwick Sudheer Kumar, Laurence N. Warr, Georg H. Grathoff, Balu R. Thombare, Tobias Manzel},
+journal={PLACEHOLDER},
+volume={1},
+number={1},
+pages={1},
+year={2025},
+publisher={MDPI}
 }
 ```
 
