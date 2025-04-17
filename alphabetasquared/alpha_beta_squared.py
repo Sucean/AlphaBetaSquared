@@ -18,8 +18,15 @@ class AlphaBetaSquared():
         self.operate_on(self.data, lambda x, *a, **kw: self.calc_alpha(x), '_alpha')
         self.operate_on(self.data, lambda x, *a, **kw: self.calc_beta(x), '_beta')
         self.operate_on(self.data, lambda x, *a, **kw: np.max(x), '_table_max')
-        self.operate_on(self.data, lambda x, *a, **kw: lognorm.fit(x, floc=0), '_lognorm_fits')
-
+        self.operate_on(self.data, lambda x, *a, **kw: self.calc_bimodality(x), '_bimodality')
+        self.operate_on(self.data, lambda x, *a, **kw: skew(x), '_skewness')
+        self.operate_on(self.data, lambda x, *a, **kw: self.calc_diptest(x), '_diptest')
+        
+        try:
+            self.operate_on(self.data, lambda x, *a, **kw: lognorm.fit(x, floc=0), '_lognorm_fits')
+        except:
+            raise("[WARNING] Negative Values")
+        
         # set this so that jupyternotebook/jupyterhub do not automaticly display figure
         self.auto_display = False
         self.alphabeta_scale = False
@@ -100,8 +107,20 @@ class AlphaBetaSquared():
             
             for col in tab:
                 result_dict[key][col] = stat_func(tab[col], key=key, *args, **kwargs)
-                
 
+    
+    def calc_bimodality(self, data):
+        n = len(data)
+        numerator = skew(data)**2 + 1
+        denominator = kurtosis(data) + (3 * (n - 1)**2) / ((n - 2) * (n - 3))
+        return numerator / denominator
+
+    
+    def calc_diptest(self, data):
+        dip, p_value = diptest.diptest(data)
+        return (dip, p_value)
+
+                                      
     def calc_distribution(self, bins=50, density=True, *args, **kwargs):
         
         def calculate_histogram(data, bins, density, *args, **kwargs):
@@ -162,13 +181,14 @@ class AlphaBetaSquared():
         if not self.auto_display:
             plt.ioff()
 
+        if not hasattr(self, '_size_distribution'):
+            self.calc_distribution()
+
         if table_column_map is None:
             table_column_map = {table : list(tab.keys()) for table, tab in self._size_distribution.items()}
         
         figures = [] 
         # Ensure distribution is calculated
-        if not hasattr(self, '_size_distribution'):
-            self.calc_distribution()
 
         for key, cols in table_column_map.items():
             if not self._has_valid_table(key):
@@ -255,7 +275,7 @@ class AlphaBetaSquared():
             shape, loc, scale = self._lognorm_fits[key][col]
             x_fit = np.linspace(0, self._table_max[key][col], 1000)
             
-            self._plot_single_column(axes[i], bin_centers, bin_heights, bin_width, shape, loc, scale, x_fit, key + " : " + col, col)
+            self._plot_single_column(axes[i], bin_centers, bin_heights, bin_width, shape, loc, scale, x_fit, key, col)
             x_min, x_max, y_min, y_max = self._update_limits(bin_centers, bin_heights, x_min, x_max, y_min, y_max)
                 
         return x_min, x_max, y_min, y_max
@@ -264,7 +284,12 @@ class AlphaBetaSquared():
         """Plot a single distribution column."""
         ax.bar(centers, heights, width=width, color="blue", edgecolor="black", alpha=0.6, label="Observed")
         ax.plot(x_fit, lognorm.pdf(x_fit, shape, loc, scale), 'r-', lw=2, label="Log-Normal Fit")
-        ax.set_title(title)
+        
+        # ax.text(0.01, 0.95, f'Bimodality-Coefficient: {self._bimodality[title][xlabel]:.2f}', transform=ax.transAxes)
+        ax.text(0.01, 0.95, f'Skewness: {self._skewness[title][xlabel]:.2f}', transform=ax.transAxes)
+        ax.text(0.01, 0.9, f'$D_n$ p-value: {self._diptest[title][xlabel][1]:.2f}', transform=ax.transAxes)
+        
+        ax.set_title(title + " : " + xlabel)
         ax.set_xlabel("Particle Size")
         ax.set_ylabel("Probability Density")
 
@@ -395,7 +420,7 @@ class AlphaBetaSquared():
             factor, intercept, r_value, _, _ = linregress(alpha, beta)
             x = np.linspace(min(alpha)*0.9, max(alpha)*1.1, 200)
             y = factor * x + intercept
-            plt.plot(x, y, linestyle='--', lw=2, label=f"$r={r_value:.2f}$")
+            plt.plot(x, y, linestyle='--', lw=2, label=f"$R²={r_value**2:.2f}$")
         
 
     def _plot_ab_annotations(self, x_max, y_max):
@@ -403,7 +428,7 @@ class AlphaBetaSquared():
         specs = [
             ((0, 0.05*y_max), (0.15*x_max, 0.95*y_max), "Nucleation + Growth"),
             ((0, 0.05*y_max), (0.75*x_max, 0.85*y_max), "Surface-controlled"), 
-            ((0, 0.05*y_max), (x_max, 0.05*y_max), "Supply-controlled vs Random Ripening")
+            ((0, 0.05*y_max), (x_max, 0.05*y_max), "Supply-controlled or Random Ripening")
         ]
     
         arrow_kw = dict(arrowstyle='-|>', lw=1.5, color='black')
@@ -416,8 +441,8 @@ class AlphaBetaSquared():
 
     def _finalize_ab_plot(self, x_min, x_max, y_min, y_max):
         """Doing some final formatting of the figure"""
-        plt.xlim(0, x_max*1.05)
-        plt.ylim(0, y_max*1.05)
+        plt.xlim(0, x_max*1.2)
+        plt.ylim(0, y_max*1.2)
         plt.xlabel(r'$\alpha}$', fontsize=14)
         plt.ylabel(r'$\beta^2$', fontsize=14)
         plt.xticks(fontsize=12)
