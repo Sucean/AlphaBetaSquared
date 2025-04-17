@@ -201,11 +201,11 @@ abs.export_data('size_distribution')
 
 ## License
 
-Copyright (c) [Year] [Your Name/Institution]  
+Copyright (c) [2025] [**Ritwick Sudheer Kumar, Tobias Manzel**,  Institute of Geography and Geology, University of Greifswald]  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy  
-of this software and associated documentation files (the "Software"), to use,  
-copy, modify, and distribute the Software **for academic purposes only**,  
+of this software and associated documentation files, to use,  
+copy, modify, and distribute the Software **for academic or private purposes only**,  
 subject to the following conditions:  
 
 1. **Non-Commercial Use**:  
@@ -217,7 +217,14 @@ subject to the following conditions:
 
 3. **Attribution**:  
    Any academic publications using this Software must cite:  
-   > [Your Publication Reference]  
+   ```bib
+@misc{kumar2025hematite,
+    author={Ritwick Sudheer Kumar, Laurence N. Warr, Georg H. Grathoff, Balu R. Thombare, Tobias Manzel},
+    title={Hydro-thermal neocrystallisation mechanism of hematite crystals by partial dissolution of montmorillonites: a TEM based study},
+    year={2025},
+    howpublished={\url{https://github.com/sucean/alphabetasquared}},
+}
+```
 
 4. **Redistribution**:  
    Modified versions must retain this license and disclose changes.  
