@@ -227,7 +227,7 @@ volume={1},
 number={1},
 pages={1},
 year={2025},
-publisher={MDPI}
+publisher={PLACEHOLDER}
 }
 ```
 
