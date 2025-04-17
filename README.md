@@ -37,6 +37,7 @@ with this easy-to-use framework other people to further expand the knowledge of 
 | SciPy         |  1.9.x    | `pip install scipy==1.9.1`      |
 | Matplotlib    |  3.6.x    | `pip install matplotlib==3.6.2` |
 | Pandas        |  2.1.x    | `pip install pandas==2.1.4`     |
+| Diptest       |  0.9.x    | `pip install diptest==0.9.0`    |
 
 
 **For exact reproduction:**
