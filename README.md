@@ -226,3 +226,5 @@ subject to the following conditions:
 
 ## References
 **Eberl, D. D., Drits, V. A., & Środoń, J.** (1998). Deducing growth mechanisms for minerals from the shapes of crystal size distributions. *American Journal of Science, 298*(6), 499–533. [https://doi.org/10.2475/ajs.298.6.499](https://doi.org/10.2475/ajs.298.6.499)
+
+**Hartigan, J. A., & Hartigan, P. M.** (1985). The dip test of unimodality. *The annals of Statistics*, 13(1), 70-84.  [http://www.jstor.org/stable/2241144](http://www.jstor.org/stable/2241144)
