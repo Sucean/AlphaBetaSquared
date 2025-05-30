@@ -285,9 +285,9 @@ class AlphaBetaSquared():
         ax.bar(centers, heights, width=width, color="blue", edgecolor="black", alpha=0.6, label="Observed")
         ax.plot(x_fit, lognorm.pdf(x_fit, shape, loc, scale), 'r-', lw=2, label="Log-Normal Fit")
         
-        # ax.text(0.01, 0.95, f'Bimodality-Coefficient: {self._bimodality[title][xlabel]:.2f}', transform=ax.transAxes)
-        ax.text(0.01, 0.95, f'Skewness: {self._skewness[title][xlabel]:.2f}', transform=ax.transAxes)
-        ax.text(0.01, 0.9, f'$D_n$ p-value: {self._diptest[title][xlabel][1]:.2f}', transform=ax.transAxes)
+        ax.text(0.01, 0.95, f'Bimodality-Coefficient: {self._bimodality[title][xlabel]:.2f}', transform=ax.transAxes)
+        # ax.text(0.01, 0.95, f'Skewness: {self._skewness[title][xlabel]:.2f}', transform=ax.transAxes)
+        # ax.text(0.01, 0.9, f'$D_n$ p-value: {self._diptest[title][xlabel][1]:.2f}', transform=ax.transAxes)
         
         ax.set_title(title + " : " + xlabel)
         ax.set_xlabel("Particle Size")

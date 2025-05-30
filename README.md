@@ -218,18 +218,30 @@ subject to the following conditions:
 3. **Attribution**:  
    Any academic publications using this Software must cite:  
    
+   
 ```bib
-@article{kumar2025hematite,
-title={Hydro-thermal neocrystallisation mechanism of hematite crystals by partial dissolution of montmorillonites: a TEM based study},
-author={Ritwick Sudheer Kumar, Laurence N. Warr, Georg H. Grathoff, Balu R. Thombare, Tobias Manzel},
-journal={PLACEHOLDER},
-volume={1},
-number={1},
-pages={1},
-year={2025},
-publisher={PLACEHOLDER}
+@unpublished{kumar2025hematite,
+  title = {A TEM-based study of the hematite neocrystallisation derived from the experimental alteration of montmorillonite in 0.1 M NaCl at elevated temperatures},
+  author = {Ritwick Sudheer Kumar and Laurence N. Warr and Georg H. Grathoff and Balu R. Thombare and Tobias Manzel},
+  year = {2025},
+  note = {Submitted for publication in *Applied Clay Science* (Elsevier)}
 }
 ```
+   
+<!--   
+```bib
+@article{kumar2025hematite,
+title={A TEM-based study of the hematite neocrystallisation derived from the experimental alteration of montmorillonite in 0.1 M NaCl at elevated temperatures},
+author={Ritwick Sudheer Kumar, Laurence N. Warr, Georg H. Grathoff, Balu R. Thombare, Tobias Manzel},
+journal={Applied Clay Science},
+volume={x},
+number={x},
+pages={x},
+year={2025},
+publisher={Elsevier}
+}
+```
+-->
 
 4. **Redistribution**:  
    Modified versions must retain this license and disclose changes.  
